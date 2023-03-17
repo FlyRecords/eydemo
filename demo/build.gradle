@@ -1,12 +1,12 @@
 plugins {
+	id 'org.springframework.boot' version '2.6.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id 'org.springframework.boot' version '3.0.4'
-	id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group = 'com.eydemo'
+group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '1.8' // Configura la versión de Java aquí
 
 repositories {
 	mavenCentral()
@@ -15,7 +15,19 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// Hibernate core
+	implementation 'org.hibernate:hibernate-core:5.4.32.Final'
+	// Hibernate entity manager
+	implementation 'org.hibernate:hibernate-entitymanager:5.4.32.Final'
+	// Hibernate validator
+	implementation 'org.hibernate.validator:hibernate-validator:6.2.0.Final'
+	//Banco de datos
+	runtimeOnly 'org.hsqldb:hsqldb:2.6.0'
+	//camelsillo
+	implementation 'org.apache.camel:camel-core:3.13.0'
 }
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()
