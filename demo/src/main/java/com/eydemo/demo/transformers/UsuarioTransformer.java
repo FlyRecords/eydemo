@@ -1,10 +1,15 @@
 package com.eydemo.demo.transformers;
 
+import com.eydemo.demo.entity.Phone;
 import com.eydemo.demo.entity.Usuario;
+import com.eydemo.demo.vo.PhoneVO;
 import com.eydemo.demo.vo.UsuarioVO;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UsuarioTransformer {
     public static UsuarioVO toVO(Usuario usuario) {
@@ -18,7 +23,15 @@ public class UsuarioTransformer {
         usuarioVO.setCreated(usuario.getCreated() != null ? usuario.getCreated() : LocalDateTime.now());
         usuarioVO.setModified(usuario.getModified() != null ? usuario.getModified() : null);
         usuarioVO.setLastLogin(usuario.getLastLogin() != null ? usuario.getLastLogin() : null);
-        usuarioVO.setPhones(usuario.getPhones() != null ? PhoneTransformer.phoneVOList(usuario.getPhones()) : null);
+        //usuarioVO.setPhones(usuario.getPhones() != null ? PhoneTransformer.phoneVOList(usuario.getPhones()) : null);
+
+        List<PhoneVO> phoneVOList = new ArrayList<>();
+        if(usuario.getPhones() !=null){
+            for (Phone p : usuario.getPhones()){
+                phoneVOList.add(PhoneTransformer.toVO(p));
+            }
+            usuarioVO.setPhones(phoneVOList);
+        }
         return usuarioVO;
     }
 
@@ -36,5 +49,6 @@ public class UsuarioTransformer {
         usuario.setPhones(usuarioVO.getPhones() != null ? PhoneTransformer.phoneList(usuarioVO.getPhones()) : null);
         return usuario;
     }
+
 
 }

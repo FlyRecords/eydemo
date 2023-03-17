@@ -1,4 +1,7 @@
 package com.eydemo.demo.entity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,7 +43,8 @@ public class Usuario {
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuarios", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     private List<Phone> phones;
 
     public Usuario() {

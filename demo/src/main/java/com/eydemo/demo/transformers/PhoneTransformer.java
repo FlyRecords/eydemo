@@ -28,7 +28,7 @@ public class PhoneTransformer {
 
     public static List<PhoneVO> phoneVOList(List<Phone> phoneList){
         List<PhoneVO> phoneVOList = new ArrayList<>();
-        if(phoneList != null || !phoneList.isEmpty()){
+        if(phoneList != null && !phoneList.isEmpty()){
             for (Phone phone : phoneList){
                 PhoneVO vo = toVO(phone);
                 phoneVOList.add(vo);
@@ -39,7 +39,7 @@ public class PhoneTransformer {
 
     public static List<Phone> phoneList(List<PhoneVO> phoneVOList){
         List<Phone> phoneList = new ArrayList<>();
-        if(phoneVOList != null || !phoneVOList.isEmpty()){
+        if(phoneVOList != null && !phoneVOList.isEmpty()){
             for (PhoneVO vo : phoneVOList){
                 Phone model = toModel(vo);
                 phoneList.add(model);

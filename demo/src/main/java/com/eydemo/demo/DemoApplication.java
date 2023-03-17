@@ -2,10 +2,11 @@ package com.eydemo.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.ComponentScan;
 
-@ImportResource({"classpath:camel-context.xml"})
+
 @SpringBootApplication
+@ComponentScan(basePackages="com.eydemo.demo")
 public class DemoApplication {
 
 	public static void main(String[] args) {
