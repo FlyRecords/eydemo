@@ -1,5 +1,6 @@
-package com.eydemo.demo;
+package com.eydemo.demo.dao;
 
+import com.eydemo.demo.dao.UsuarioDao;
 import com.eydemo.demo.entity.Phone;
 import com.eydemo.demo.entity.Usuario;
 import com.eydemo.demo.transformers.PhoneTransformer;
@@ -16,6 +17,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class UsuarioDaoImpl  implements UsuarioDao {
@@ -83,7 +85,9 @@ public class UsuarioDaoImpl  implements UsuarioDao {
 
                 ZoneId zoneChile = ZoneId.of("America/Santiago");
                 ZonedDateTime fechaChile = ZonedDateTime.now(zoneChile);
-
+                String uuid = UUID.randomUUID().toString();
+                model.setToken(uuid);
+                model.setActive(true);
                 model.setCreated(fechaChile.toLocalDateTime());
                 model.setLastLogin(fechaChile.toLocalDateTime());
                 session.save(model);
@@ -91,7 +95,7 @@ public class UsuarioDaoImpl  implements UsuarioDao {
                     p.setUsuarios(model);
                     session.save(p);
                 }
-                usuario.setId(model.getId());
+                usuario = UsuarioTransformer.toVO(model);
                 session.getTransaction().commit();
             }
         }catch (Exception e){
@@ -121,9 +125,13 @@ public class UsuarioDaoImpl  implements UsuarioDao {
                 model.setLastLogin(fechaChile.toLocalDateTime());
 
                 session.update(model);
+
                 for (Phone p : model.getPhones()){
-                    p.setUsuarios(model);
-                    session.update(p);
+                    if(p.getId()!=null){
+                        p.setUsuarios(model);
+                        session.update(p);
+                    }
+
                 }
                 usuario.setId(model.getId());
                 session.getTransaction().commit();
@@ -147,8 +155,7 @@ public class UsuarioDaoImpl  implements UsuarioDao {
         try{
             session.beginTransaction();
             Usuario model = new Usuario();
-            Query query =session.createNamedQuery("Usuario.findById").setParameter("id", id);
-            model = (Usuario) query.getResultList().get(0);
+            model = session.find(Usuario.class, id);
             if(model !=null){
                 model.setActive(false);
                 ZoneId zoneChile = ZoneId.of("America/Santiago");

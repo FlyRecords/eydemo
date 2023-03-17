@@ -1,4 +1,4 @@
-package com.eydemo.demo;
+package com.eydemo.demo.dao;
 
 import com.eydemo.demo.vo.PhoneVO;
 import com.eydemo.demo.vo.UsuarioVO;

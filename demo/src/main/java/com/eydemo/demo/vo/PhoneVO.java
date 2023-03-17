@@ -6,6 +6,9 @@ public class PhoneVO {
     private String cytycode;
     private String countrycode;
 
+    public PhoneVO(String s, Object o, String s1) {
+    }
+
     public Integer getId() {
         return id;
     }

@@ -5,6 +5,6 @@
                         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Definición del bean para UsuarioDaoImpl -->
-    <bean id="usuarioDao" class="com.eydemo.demo.UsuarioDaoImpl" />
+    <bean id="usuarioDao" class="com.eydemo.demo.dao.UsuarioDaoImpl" />
 
 </beans>

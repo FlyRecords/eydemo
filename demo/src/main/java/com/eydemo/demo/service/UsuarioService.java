@@ -1,15 +1,15 @@
-package com.eydemo.demo;
+package com.eydemo.demo.service;
 
-import com.eydemo.demo.UsuarioDao;
+import com.eydemo.demo.dao.UsuarioDao;
 import com.eydemo.demo.vo.JsonRest;
 import com.eydemo.demo.vo.PhoneVO;
 import com.eydemo.demo.vo.UsuarioVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,7 +66,7 @@ public class UsuarioService {
         try{
             causas = this.validUsuario(vo);
             if(causas.isEmpty()){
-                usuarioVO = usuarioDao.ingresarUsuario(vo);
+                usuarioVO = usuarioDao.modificarUsuario(vo);
                 responseUsuario.setObj(usuarioVO);
                 responseUsuario.setEstado("EXITO");
             }else{
@@ -80,7 +80,7 @@ public class UsuarioService {
         return responseUsuario;
     }
     @PostMapping("/eliminar")
-    public JsonRest eliminarUsuario(Integer id) throws Exception{
+    public JsonRest eliminarUsuario(@RequestParam Integer id) throws Exception{
         JsonRest responseUsuario = new JsonRest();
         UsuarioVO usuarioVO = new UsuarioVO();
         List<String> causas = new ArrayList<>();
@@ -124,7 +124,8 @@ public class UsuarioService {
         List<String> causas = new ArrayList<>();
         try{
             List<UsuarioVO>  usuarioVOList = usuarioDao.obtenerUsuarios();
-            if(usuarioVOList.stream().anyMatch(u->u.getEmail().equals(usuarioVO.getEmail()))) causas.add("El correo ya existe para otro usuario, ingrese uno distinto. ");
+            if(usuarioVOList.stream().filter(u-> u.getId() == null).anyMatch(u->u.getEmail().equals(usuarioVO.getEmail()))) causas.add("El correo ya existe para otro usuario, ingrese uno distinto. ");
+            if(usuarioVOList.stream().filter(u-> u.getId() != null).anyMatch(u-> !Objects.equals(u.getId(), usuarioVO.getId()) && u.getEmail().equals(usuarioVO.getEmail()))) causas.add("El correo ya existe para otro usuario, ingrese uno distinto. ");
             if(usuarioVO == null) causas.add("El usuario viene nulo. ");
             if(!isValidEmail(usuarioVO.getEmail())) causas.add("El formato de correo ingresado no es valido. ");
             if(!isValidPass(usuarioVO.getPassword())) causas.add("El formato de la contraseña ingresado no es valido. Ingrese una mayuscula, letras minusculas y dos numeros como minimo. ");

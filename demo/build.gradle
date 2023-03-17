@@ -16,6 +16,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.1'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.1'
+	//mockito
+	testImplementation 'org.mockito:mockito-core:4.2.0'
+
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
 	// Hibernate core
 	implementation 'org.hibernate:hibernate-core:5.6.4.Final'
 	// Hibernate entity manager
